@@ -1,12 +1,15 @@
 package com.software.modsen.ratingservice.mapper;
 
-import com.software.modsen.ratingservice.dto.request.RatingRequest;
 import com.software.modsen.ratingservice.dto.response.RatingResponse;
-import com.software.modsen.ratingservice.model.Rating;
+import com.software.modsen.ratingservice.model.DriverRating;
+import com.software.modsen.ratingservice.model.PassengerRating;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RatingMapper {
-    RatingResponse toRatingResponse(Rating rating);
-    Rating toRating(RatingRequest ratingRequest);
+    @Mapping(source = "passengerId", target = "userId")
+    RatingResponse toRatingResponse(PassengerRating rating);
+    @Mapping(source = "driverId", target = "userId")
+    RatingResponse toRatingResponse(DriverRating driverRating);
 }

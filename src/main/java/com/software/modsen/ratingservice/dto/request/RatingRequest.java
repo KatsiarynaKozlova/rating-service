@@ -10,5 +10,5 @@ import lombok.Setter;
 public class RatingRequest {
     private Long rideId;
     private int rate;
-    private String comment = "";
+    private String comment;
 }

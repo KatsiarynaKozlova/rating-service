@@ -1,6 +1,5 @@
 package com.software.modsen.ratingservice.dto.response;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RatingResponse {
     private Long id;
-    private Long driverId;
-    private Long passengerId;
-    private int rate;
+    private Long userId;
+    private double rate;
     private String comment;
 }

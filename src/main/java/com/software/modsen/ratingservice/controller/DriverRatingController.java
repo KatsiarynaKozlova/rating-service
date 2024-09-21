@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,28 +19,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/ratings")
-public class RatingController {
-    private final RatingService ratingService;
+@RequestMapping("/ratings/drivers")
+public class DriverRatingController {
+    private final RatingService driverRatingService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<RatingResponse> getRatingById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(ratingService.getRatingById(id));
+    public ResponseEntity<RatingResponse> getDriverRatingById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(driverRatingService.getRatingById(id));
     }
 
     @GetMapping
-    public ResponseEntity<RatingListResponse> getAllRatings() {
-        return ResponseEntity.ok().body(ratingService.getAllRatings());
+    public ResponseEntity<RatingListResponse> getAllDriverRating() {
+        return ResponseEntity.ok().body(driverRatingService.getAllRatings());
     }
 
-    @GetMapping("driver/{id}")
-    public ResponseEntity<RatingListResponse> getRatingByDriverId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(ratingService.getRatingByDriverId(id));
+    @PutMapping("/{id}")
+    public ResponseEntity<RatingResponse> updateDriverRating(
+            @PathVariable Long id,
+            @RequestBody RatingRequest ratingRequest
+    ) {
+        return null;
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<RatingResponse> createDriverRating(@PathVariable Long id){
+        return null;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteRatingById(@PathVariable Long id){
-        ratingService.deleteRatingById(id);
+    public void deleteDriverRating(@PathVariable Long id){
+        driverRatingService.deleteRatingById(id);
     }
 }

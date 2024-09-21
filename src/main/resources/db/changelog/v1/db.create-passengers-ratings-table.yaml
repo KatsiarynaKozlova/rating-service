@@ -4,7 +4,7 @@ databaseChangeLog:
       id: 2
       changes:
         - createTable:
-            tableName: ratings
+            tableName: passengers_ratings
             columns:
               - column:
                   name: rating_id
@@ -12,11 +12,6 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     unique: true
-                    nullable: false
-              - column:
-                  name: driver_id
-                  type: bigint
-                  constraints:
                     nullable: false
               - column:
                   name: passenger_id
