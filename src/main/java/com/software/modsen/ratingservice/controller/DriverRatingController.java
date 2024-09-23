@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class DriverRatingController {
     private final RatingService driverRatingService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/drivers")
     public ResponseEntity<RatingResponse> getRatingById(@PathVariable Long id) {
         return ResponseEntity.ok().body(driverRatingService.getRatingById(id));
     }
 
-    @GetMapping
+    @GetMapping("/drivers")
     public ResponseEntity<RatingListResponse> getAllDriverRating() {
         return ResponseEntity.ok().body(driverRatingService.getAllRatings());
     }
@@ -38,7 +38,7 @@ public class DriverRatingController {
         return ResponseEntity.ok().body(driverRatingService.getAverageRatingById(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/drivers/{id}")
     public ResponseEntity<RatingResponse> updateDriverRating(
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
@@ -46,12 +46,12 @@ public class DriverRatingController {
         return ResponseEntity.ok().body(driverRatingService.updateRating(id, ratingRequest));
     }
 
-    @PostMapping("/{id}/init")
+    @PostMapping("/drivers/{id}/init")
     public ResponseEntity<RatingResponse> initDriverRating(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(driverRatingService.initRating(id));
     }
 
-    @PostMapping
+    @PostMapping("/drivers")
     public ResponseEntity<RatingResponse> createDriverRating(
             @RequestBody RatingRequest ratingRequest
     ) {
@@ -59,7 +59,7 @@ public class DriverRatingController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/drivers/{id}")
     public void deleteDriverRating(@PathVariable Long id) {
         driverRatingService.deleteRatingById(id);
     }

@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/ratings/pasengers/")
+@RequestMapping("/ratings")
 public class PassengerRatingController {
     private final RatingService passengerRatingService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/passengers")
     public ResponseEntity<RatingResponse> getPassengerRatingById(@PathVariable Long id) {
         return ResponseEntity.ok().body(passengerRatingService.getRatingById(id));
     }
 
-    @GetMapping
+    @GetMapping("/passengers")
     public ResponseEntity<RatingListResponse> getAllPassengerRating() {
         return ResponseEntity.ok().body(passengerRatingService.getAllRatings());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/passengers/{id}")
     public ResponseEntity<RatingResponse> updatePassengerRating(
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
@@ -41,12 +41,12 @@ public class PassengerRatingController {
         return ResponseEntity.ok().body(passengerRatingService.updateRating(id, ratingRequest));
     }
 
-    @PostMapping("/{id}/init")
+    @PostMapping("/passengers/{id}/init")
     public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(passengerRatingService.initRating(id));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/passengers/{id}")
     public ResponseEntity<RatingResponse> createPassengerRating(
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
@@ -55,7 +55,7 @@ public class PassengerRatingController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/passengers/{id}")
     public void deletePassengerRating(@PathVariable Long id) {
         passengerRatingService.deleteRatingById(id);
     }

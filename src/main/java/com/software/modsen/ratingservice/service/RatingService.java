@@ -11,9 +11,13 @@ public interface RatingService {
 
     RatingListResponse getAllRatings();
 
+    Double getAverageRatingById(Long id);
+
     void deleteRatingById(Long id);
 
-    RatingResponse createRating(Long id);
+    RatingResponse initRating(Long id);
+
+    RatingResponse createRating(RatingRequest ratingRequest);
 
     RatingResponse updateRating(Long id, RatingRequest ratingRequest);
 }
