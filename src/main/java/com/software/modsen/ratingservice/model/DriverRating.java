@@ -18,6 +18,8 @@ public class DriverRating {
     private Long id;
     @Column(name = "driver_id")
     private Long driverId;
+    @Column(name = "passenger_id")
+    private Long passengerId;
     @Column(name = "rate")
     private double rate;
     @Column(name = "comment")

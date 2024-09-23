@@ -65,6 +65,7 @@ public class PassengerRatingService implements RatingService {
         RideResponse rideResponse = rideService.getRideById(ratingRequest.getRideId());
         PassengerRating rating = new PassengerRating();
         rating.setPassengerId(rideResponse.getPassengerId());
+        rating.setDriverId(rideResponse.getDriverId());
         rating.setRate(ratingRequest.getRate());
         rating.setComment(ratingRequest.getComment());
         return ratingMapper.toRatingResponse(ratingRepository.save(rating));

@@ -8,8 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RatingMapper {
-    @Mapping(source = "passengerId", target = "userId")
     RatingResponse toRatingResponse(PassengerRating rating);
-    @Mapping(source = "driverId", target = "userId")
     RatingResponse toRatingResponse(DriverRating driverRating);
 }
