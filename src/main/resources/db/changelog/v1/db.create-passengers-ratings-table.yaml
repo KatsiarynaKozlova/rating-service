@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: rate
-                  type: int
+                  type: double
                   constraints:
                     nullable: false
                     checkConstraint: "CHECK (rate &gt;= 0 AND rate &lt;= 5)"
