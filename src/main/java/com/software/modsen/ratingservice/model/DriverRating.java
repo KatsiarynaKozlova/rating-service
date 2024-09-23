@@ -19,7 +19,7 @@ public class DriverRating {
     @Column(name = "driver_id")
     private Long driverId;
     @Column(name = "rate")
-    private int rate;
+    private double rate;
     @Column(name = "comment")
     private String comment;
 }

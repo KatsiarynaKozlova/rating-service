@@ -19,7 +19,7 @@ public class PassengerRating {
     @Column(name = "passenger_id")
     private Long passengerId;
     @Column(name = "rate")
-    private int rate;
+    private double rate;
     @Column(name = "comment")
     private String comment;
 }

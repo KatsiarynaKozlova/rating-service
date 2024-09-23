@@ -33,22 +33,30 @@ public class PassengerRatingController {
         return ResponseEntity.ok().body(passengerRatingService.getAllRatings());
     }
 
-    @PutMapping("/passengers/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<RatingResponse> updatePassengerRating(
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
     ) {
-        return null;
+        return ResponseEntity.ok().body(passengerRatingService.updateRating(id, ratingRequest));
     }
 
-    @PostMapping("/passenger/{id}")
-    public ResponseEntity<RatingResponse> createPassengerRating(@PathVariable Long id){
-        return null;
+    @PostMapping("/{id}/init")
+    public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(passengerRatingService.initRating(id));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<RatingResponse> createPassengerRating(
+            @PathVariable Long id,
+            @RequestBody RatingRequest ratingRequest
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(passengerRatingService.createRating(ratingRequest));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/passengers/{id}")
-    public void deletePassengerRating(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public void deletePassengerRating(@PathVariable Long id) {
         passengerRatingService.deleteRatingById(id);
     }
 }
