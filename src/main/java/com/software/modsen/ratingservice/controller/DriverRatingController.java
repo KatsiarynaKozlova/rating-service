@@ -3,7 +3,9 @@ package com.software.modsen.ratingservice.controller;
 import com.software.modsen.ratingservice.dto.request.RatingRequest;
 import com.software.modsen.ratingservice.dto.response.RatingListResponse;
 import com.software.modsen.ratingservice.dto.response.RatingResponse;
-import com.software.modsen.ratingservice.service.RatingService;
+import com.software.modsen.ratingservice.mapper.RatingMapper;
+import com.software.modsen.ratingservice.model.DriverRating;
+import com.software.modsen.ratingservice.service.DriverRatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +19,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ratings")
 public class DriverRatingController {
-    private final RatingService driverRatingService;
+    private final DriverRatingService driverRatingService;
+    private final RatingMapper ratingMapper;
 
     @GetMapping("/{id}/drivers")
     public ResponseEntity<RatingResponse> getRatingById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(driverRatingService.getRatingById(id));
+        return ResponseEntity.ok(ratingMapper.toRatingResponse(driverRatingService.getRatingById(id)));
     }
 
     @GetMapping("/drivers")
     public ResponseEntity<RatingListResponse> getAllDriverRating() {
-        return ResponseEntity.ok().body(driverRatingService.getAllRatings());
+        return ResponseEntity.ok(new RatingListResponse(driverRatingService.getAllRatings()
+                .stream()
+                .map(ratingMapper::toRatingResponse)
+                .collect(Collectors.toList())));
     }
 
     @GetMapping("/drivers/{id}")
@@ -43,19 +51,26 @@ public class DriverRatingController {
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
     ) {
-        return ResponseEntity.ok().body(driverRatingService.updateRating(id, ratingRequest));
+        DriverRating driverRating = ratingMapper.toDriverRating(ratingRequest);
+        return ResponseEntity.ok(ratingMapper.toRatingResponse(driverRatingService.updateRating(driverRating, id)));
     }
 
     @PostMapping("/drivers/{id}/init")
     public ResponseEntity<RatingResponse> initDriverRating(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(driverRatingService.initRating(id));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ratingMapper.toRatingResponse(driverRatingService.initRating(id)));
     }
 
     @PostMapping("/drivers")
     public ResponseEntity<RatingResponse> createDriverRating(
             @RequestBody RatingRequest ratingRequest
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(driverRatingService.createRating(ratingRequest));
+        DriverRating driverRating = ratingMapper.toDriverRating(ratingRequest);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ratingMapper.toRatingResponse(
+                        driverRatingService.createRating(driverRating, ratingRequest.getRideId())));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

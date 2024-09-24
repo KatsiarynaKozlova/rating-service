@@ -3,7 +3,9 @@ package com.software.modsen.ratingservice.controller;
 import com.software.modsen.ratingservice.dto.request.RatingRequest;
 import com.software.modsen.ratingservice.dto.response.RatingListResponse;
 import com.software.modsen.ratingservice.dto.response.RatingResponse;
-import com.software.modsen.ratingservice.service.RatingService;
+import com.software.modsen.ratingservice.mapper.RatingMapper;
+import com.software.modsen.ratingservice.model.PassengerRating;
+import com.software.modsen.ratingservice.service.PassengerRatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +19,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ratings")
 public class PassengerRatingController {
-    private final RatingService passengerRatingService;
+    private final PassengerRatingService passengerRatingService;
+    private final RatingMapper ratingMapper;
 
     @GetMapping("/{id}/passengers")
     public ResponseEntity<RatingResponse> getPassengerRatingById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(passengerRatingService.getRatingById(id));
+        return ResponseEntity.ok(ratingMapper.toRatingResponse(passengerRatingService.getRatingById(id)));
     }
 
     @GetMapping("/passengers")
     public ResponseEntity<RatingListResponse> getAllPassengerRating() {
-        return ResponseEntity.ok().body(passengerRatingService.getAllRatings());
+        return ResponseEntity.ok(new RatingListResponse(passengerRatingService.getAllRatings()
+                .stream()
+                .map(ratingMapper::toRatingResponse)
+                .collect(Collectors.toList())));
     }
 
     @PutMapping("/passengers/{id}")
@@ -38,20 +46,26 @@ public class PassengerRatingController {
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
     ) {
-        return ResponseEntity.ok().body(passengerRatingService.updateRating(id, ratingRequest));
+        PassengerRating passengerRating = ratingMapper.toPassengerRating(ratingRequest);
+        return ResponseEntity.ok(ratingMapper.toRatingResponse(passengerRatingService.updateRating(passengerRating, id)));
     }
 
     @PostMapping("/passengers/{id}/init")
     public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(passengerRatingService.initRating(id));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ratingMapper.toRatingResponse(passengerRatingService.initRating(id)));
     }
 
-    @PostMapping("/passengers/{id}")
+    @PostMapping("/passengers")
     public ResponseEntity<RatingResponse> createPassengerRating(
-            @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(passengerRatingService.createRating(ratingRequest));
+        PassengerRating passengerRating = ratingMapper.toPassengerRating(ratingRequest);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ratingMapper.toRatingResponse(
+                        passengerRatingService.createRating(passengerRating, ratingRequest.getRideId())));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

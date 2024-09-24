@@ -5,7 +5,7 @@ spring:
     name: rating-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: ${POSTGRESQL_USER}
+    username: ${POSTGRESQL_USERNAME}
     password: ${POSTGRESQL_PASSWORD}
     url: jdbc:postgresql://localhost:5432/rating_db
   jpa:

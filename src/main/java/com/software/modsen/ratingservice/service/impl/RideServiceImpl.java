@@ -30,7 +30,6 @@ public class RideServiceImpl implements RideService {
     }
 
     private RideResponse getRideByIdFallback(Long id, NotFoundException exception) {
-        System.out.println(exception.getMessage());
         throw new RideNotFoundException(String.format(ExceptionMessages.RIDE_NOT_FOUND_EXCEPTION,id));
     }
 }
