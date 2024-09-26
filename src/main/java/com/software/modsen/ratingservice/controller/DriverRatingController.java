@@ -1,6 +1,7 @@
 package com.software.modsen.ratingservice.controller;
 
 import com.software.modsen.ratingservice.dto.request.RatingRequest;
+import com.software.modsen.ratingservice.dto.response.DriverRatingResponse;
 import com.software.modsen.ratingservice.dto.response.RatingListResponse;
 import com.software.modsen.ratingservice.dto.response.RatingResponse;
 import com.software.modsen.ratingservice.mapper.RatingMapper;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.stream.Collectors;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ratings")
@@ -35,15 +34,14 @@ public class DriverRatingController {
 
     @GetMapping("/drivers")
     public ResponseEntity<RatingListResponse> getAllDriverRating() {
-        return ResponseEntity.ok(new RatingListResponse(driverRatingService.getAllRatings()
-                .stream()
-                .map(ratingMapper::toRatingResponse)
-                .collect(Collectors.toList())));
+        return ResponseEntity.ok(new RatingListResponse(
+                ratingMapper.toRatingResponseListFromDriverList(driverRatingService.getAllRatings())));
     }
 
     @GetMapping("/drivers/{id}")
-    public ResponseEntity<Double> getDriverRatingById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(driverRatingService.getAverageRatingById(id));
+    public ResponseEntity<DriverRatingResponse> getDriverRatingById(@PathVariable Long id) {
+        double rate = driverRatingService.getAverageRatingById(id);
+        return ResponseEntity.ok().body(new DriverRatingResponse(id, rate));
     }
 
     @PutMapping("/drivers/{id}")

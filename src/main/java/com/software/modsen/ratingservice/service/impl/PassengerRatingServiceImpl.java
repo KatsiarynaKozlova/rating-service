@@ -6,7 +6,7 @@ import com.software.modsen.ratingservice.model.PassengerRating;
 import com.software.modsen.ratingservice.repository.PassengerRatingRepository;
 import com.software.modsen.ratingservice.service.PassengerRatingService;
 import com.software.modsen.ratingservice.service.RideService;
-import com.software.modsen.ratingservice.util.Constants;
+import com.software.modsen.ratingservice.util.DefaultValues;
 import com.software.modsen.ratingservice.util.ExceptionMessages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,13 +48,14 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     public PassengerRating initRating(Long id) {
         PassengerRating rating = new PassengerRating();
         rating.setPassengerId(id);
-        rating.setRate(Constants.DEFAULT_RATE);
+        rating.setRate(DefaultValues.DEFAULT_RATE);
         return ratingRepository.save(rating);
     }
 
     @Override
     public PassengerRating createRating(PassengerRating passengerRating, Long rideId) {
         RideResponse rideResponse = rideService.getRideById(rideId);
+        validateRate(passengerRating.getRate());
         passengerRating.setPassengerId(rideResponse.getPassengerId());
         passengerRating.setDriverId(rideResponse.getDriverId());
         return ratingRepository.save(passengerRating);
@@ -63,8 +64,15 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     @Override
     public PassengerRating updateRating(PassengerRating passengerRating, Long id) {
         PassengerRating rating = getByIdOrElseThrow(id);
+        validateRate(passengerRating.getRate());
         rating.setRate(passengerRating.getRate());
         rating.setComment(passengerRating.getComment());
         return ratingRepository.save(passengerRating);
+    }
+
+    private void validateRate(double rate) {
+        if (rate > 5 || rate < 0) {
+            throw new RatingNotFoundException(ExceptionMessages.RATE_NOT_VALID_EXCEPTION);
+        }
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "rideFeignClient", url = "http://localhost:8084/rides")
+@FeignClient(value = "rideFeignClient")
 public interface RideFeignClient {
     @Retry(name = "rideFeignClient")
     @CircuitBreaker(name = "rideFeignClient")

@@ -16,13 +16,5 @@ public class RideResponse {
     private String routeEnd;
     private BigDecimal price;
     private LocalDateTime dateTimeCreate;
-    private Status status;
-}
-
-enum Status{
-    REATED,
-    ACCEPTED,
-    ACTIVE,
-    FINISHED,
-    CANCELED
+    private RideStatus status;
 }

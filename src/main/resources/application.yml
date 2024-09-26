@@ -19,6 +19,8 @@ spring:
     openfeign:
       client:
         config:
+          rideFeignClient:
+            url: http://localhost:8084/rides
           default:
             connect-timeout: 5000
             readTimeout: 5000
