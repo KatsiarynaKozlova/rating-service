@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      author: Katsiaryna
+      id: 2
+      changes:
+        - createTable:
+            tableName: drivers_ratings
+            columns:
+              - column:
+                  name: rating_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: driver_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: passenger_id
+                  type: bigint
+              - column:
+                  name: rate
+                  type: double
+                  constraints:
+                    nullable: false
+                    checkConstraint: "CHECK (rate &gt;= 0 AND rate &lt;= 5)"
+              - column:
+                  name: comment
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+                    defaultValue: ""
