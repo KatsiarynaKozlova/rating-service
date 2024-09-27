@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ratings")
@@ -29,19 +31,24 @@ public class PassengerRatingController {
 
     @GetMapping("/{id}/passengers")
     public ResponseEntity<RatingResponse> getRatingById(@PathVariable Long id) {
-        return ResponseEntity.ok(ratingMapper.toRatingResponse(passengerRatingService.getRatingById(id)));
+        PassengerRating passengerRating = passengerRatingService.getRatingById(id);
+        RatingResponse passengerRatingResponse = ratingMapper.toRatingResponse(passengerRating);
+        return ResponseEntity.ok(passengerRatingResponse);
     }
 
     @GetMapping("/passengers")
     public ResponseEntity<RatingListResponse> getAllPassengerRating() {
-        return ResponseEntity.ok(new RatingListResponse(
-                ratingMapper.toRatingResponseListFromPassengerList(passengerRatingService.getAllRatings())));
+        List<PassengerRating> passengerRatingList = passengerRatingService.getAllRatings();
+        List<RatingResponse> passengerRatingResponseList = ratingMapper.toRatingResponseListFromPassengerList(passengerRatingList);
+        RatingListResponse ratingResponseList = new RatingListResponse(passengerRatingResponseList);
+        return ResponseEntity.ok(ratingResponseList);
     }
 
     @GetMapping("/passengers/{id}")
     public ResponseEntity<PassengerRatingResponse> getPassengerRatingById(@PathVariable Long id) {
         double rate = passengerRatingService.getAverageRatingById(id);
-        return ResponseEntity.ok(new PassengerRatingResponse(id, rate));
+        PassengerRatingResponse passengerRatingResponse = new PassengerRatingResponse(id, rate);
+        return ResponseEntity.ok(passengerRatingResponse);
     }
 
     @PutMapping("/passengers/{id}")
@@ -49,26 +56,31 @@ public class PassengerRatingController {
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
     ) {
-        PassengerRating passengerRating = ratingMapper.toPassengerRating(ratingRequest);
-        return ResponseEntity.ok(ratingMapper.toRatingResponse(passengerRatingService.updateRating(passengerRating, id)));
+        PassengerRating newPassengerRating = ratingMapper.toPassengerRating(ratingRequest);
+        PassengerRating updatedPassengerRating = passengerRatingService.updateRating(newPassengerRating, id);
+        RatingResponse passengerRatingResponse = ratingMapper.toRatingResponse(updatedPassengerRating);
+        return ResponseEntity.ok(passengerRatingResponse);
     }
 
     @PostMapping("/passengers/{id}/init")
     public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable Long id) {
+        PassengerRating newPassengerRating = passengerRatingService.initRating(id);
+        RatingResponse passengerRatingResponse = ratingMapper.toRatingResponse(newPassengerRating);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ratingMapper.toRatingResponse(passengerRatingService.initRating(id)));
+                .body(passengerRatingResponse);
     }
 
     @PostMapping("/passengers")
     public ResponseEntity<RatingResponse> createPassengerRating(
             @RequestBody RatingRequest ratingRequest
     ) {
-        PassengerRating passengerRating = ratingMapper.toPassengerRating(ratingRequest);
+        PassengerRating newPassengerRating = ratingMapper.toPassengerRating(ratingRequest);
+        PassengerRating passengerRating = passengerRatingService.createRating(newPassengerRating, ratingRequest.getRideId());
+        RatingResponse passengerRatingResponse = ratingMapper.toRatingResponse(passengerRating);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ratingMapper.toRatingResponse(
-                        passengerRatingService.createRating(passengerRating, ratingRequest.getRideId())));
+                .body(passengerRatingResponse);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

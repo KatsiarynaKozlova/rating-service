@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ratings")
@@ -29,19 +31,24 @@ public class DriverRatingController {
 
     @GetMapping("/{id}/drivers")
     public ResponseEntity<RatingResponse> getRatingById(@PathVariable Long id) {
-        return ResponseEntity.ok(ratingMapper.toRatingResponse(driverRatingService.getRatingById(id)));
+        DriverRating rating = driverRatingService.getRatingById(id);
+        RatingResponse ratingResponse = ratingMapper.toRatingResponse(rating);
+        return ResponseEntity.ok(ratingResponse);
     }
 
     @GetMapping("/drivers")
     public ResponseEntity<RatingListResponse> getAllDriverRating() {
-        return ResponseEntity.ok(new RatingListResponse(
-                ratingMapper.toRatingResponseListFromDriverList(driverRatingService.getAllRatings())));
+        List<DriverRating> driverRatingList = driverRatingService.getAllRatings();
+        List<RatingResponse> driverRatingResponseList = ratingMapper.toRatingResponseListFromDriverList(driverRatingList);
+        RatingListResponse ratingListResponse = new RatingListResponse(driverRatingResponseList);
+        return ResponseEntity.ok(ratingListResponse);
     }
 
     @GetMapping("/drivers/{id}")
     public ResponseEntity<DriverRatingResponse> getDriverRatingById(@PathVariable Long id) {
         double rate = driverRatingService.getAverageRatingById(id);
-        return ResponseEntity.ok().body(new DriverRatingResponse(id, rate));
+        DriverRatingResponse driverRatingResponse = new DriverRatingResponse(id, rate);
+        return ResponseEntity.ok().body(driverRatingResponse);
     }
 
     @PutMapping("/drivers/{id}")
@@ -49,26 +56,31 @@ public class DriverRatingController {
             @PathVariable Long id,
             @RequestBody RatingRequest ratingRequest
     ) {
-        DriverRating driverRating = ratingMapper.toDriverRating(ratingRequest);
-        return ResponseEntity.ok(ratingMapper.toRatingResponse(driverRatingService.updateRating(driverRating, id)));
+        DriverRating newDriverRating = ratingMapper.toDriverRating(ratingRequest);
+        DriverRating updatedDriverRating = driverRatingService.updateRating(newDriverRating, id);
+        RatingResponse driverRatingResponse = ratingMapper.toRatingResponse(updatedDriverRating);
+        return ResponseEntity.ok(driverRatingResponse);
     }
 
     @PostMapping("/drivers/{id}/init")
     public ResponseEntity<RatingResponse> initDriverRating(@PathVariable Long id) {
+        DriverRating newDriverRating = driverRatingService.initRating(id);
+        RatingResponse driverRatingResponse = ratingMapper.toRatingResponse(newDriverRating);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ratingMapper.toRatingResponse(driverRatingService.initRating(id)));
+                .body(driverRatingResponse);
     }
 
     @PostMapping("/drivers")
     public ResponseEntity<RatingResponse> createDriverRating(
             @RequestBody RatingRequest ratingRequest
     ) {
-        DriverRating driverRating = ratingMapper.toDriverRating(ratingRequest);
+        DriverRating newDriverRating = ratingMapper.toDriverRating(ratingRequest);
+        DriverRating driverRating = driverRatingService.createRating(newDriverRating, ratingRequest.getRideId());
+        RatingResponse driverRatingResponse = ratingMapper.toRatingResponse(driverRating);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ratingMapper.toRatingResponse(
-                        driverRatingService.createRating(driverRating, ratingRequest.getRideId())));
+                .body(driverRatingResponse);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
