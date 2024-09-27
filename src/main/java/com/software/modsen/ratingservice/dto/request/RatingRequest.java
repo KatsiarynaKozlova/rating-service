@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
 @Setter
 public class RatingRequest {
     private Long rideId;
-    @Range(min = 0, max = 5)
+    @Range(min = 1, max = 5)
     private int rate;
     private String comment;
 }

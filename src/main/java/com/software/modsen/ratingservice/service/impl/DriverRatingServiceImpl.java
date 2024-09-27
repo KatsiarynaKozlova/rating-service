@@ -71,7 +71,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     private void validateRate(double rate) {
-        if (rate > 5 || rate < 0) {
+        if (rate > 5 || rate < 1) {
             throw new RatingNotFoundException(ExceptionMessages.RATE_NOT_VALID_EXCEPTION);
         }
     }
