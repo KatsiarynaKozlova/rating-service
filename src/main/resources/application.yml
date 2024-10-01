@@ -27,6 +27,19 @@ spring:
             error-decoder: com.software.modsen.ratingservice.config.RideErrorDecoder
       circuitbreaker:
         enabled: true
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: rating-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      properties:
+        spring.json.trusted.packages: "*"
+        kafka.consumer.trusted.packages: "*"
+      bootstrap-servers: kafka:9092
+
 eureka:
   client:
     service-url:

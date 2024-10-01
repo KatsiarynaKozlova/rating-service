@@ -25,7 +25,6 @@ public class RideServiceImpl implements RideService {
     }
 
     private RideResponse getRideByIdFallback(Long id, Exception exception){
-        System.out.println(exception.getMessage());
         throw new ServiceUnAvailableException(ExceptionMessages.RIDE_SERVICE_IS_NOT_AVAILABLE);
     }
 
