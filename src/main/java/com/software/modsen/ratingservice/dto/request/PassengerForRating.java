@@ -1,3 +1,6 @@
 package com.software.modsen.ratingservice.dto.request;
 
-public record PassengerForRating(Long id) {}
+public record PassengerForRating(
+    Long id
+) {
+}
