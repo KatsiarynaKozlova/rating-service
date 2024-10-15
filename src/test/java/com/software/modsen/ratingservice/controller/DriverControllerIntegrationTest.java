@@ -25,12 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.software.modsen.ratingservice.util.ApiConstants.DELETE_DRIVER_RATING_URL;
-import static com.software.modsen.ratingservice.util.ApiConstants.GET_DRIVER_RATING_BY_DRIVER_ID_URL;
-import static com.software.modsen.ratingservice.util.ApiConstants.GET_DRIVER_RATING_BY_RATING_ID_URL;
-import static com.software.modsen.ratingservice.util.ApiConstants.GET_RIDE_WIRE_MOCK_URL;
-import static com.software.modsen.ratingservice.util.ApiConstants.POST_DRIVER_RATING_URL;
-import static com.software.modsen.ratingservice.util.ApiConstants.PUT_DRIVER_RATING_URL;
+import static com.software.modsen.ratingservice.util.ApiConstants.*;
 import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.DEFAULT_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -45,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import({DatabaseContainerConfiguration.class,
         KafkaContainerConfiguration.class})
-@AutoConfigureWireMock(port = 8084)
+@AutoConfigureWireMock(port = RIDE_WIRE_MOCK_PORT)
 public class DriverControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
@@ -63,7 +58,7 @@ public class DriverControllerIntegrationTest {
     @Order(2)
     public void testCreateDriverRating_ShouldReturnNewRating() throws Exception {
         RatingRequest newRatingRequest = DriverRatingTestUtil.getDefaultRatingRequest();
-        DriverRating expectedResponse = DriverRatingTestUtil.getDeaultDriverRating();
+        DriverRating expectedResponse = DriverRatingTestUtil.getDefaultDriverRating();
 
         stubFor(WireMock.get(urlEqualTo(GET_RIDE_WIRE_MOCK_URL))
                 .willReturn(aResponse()

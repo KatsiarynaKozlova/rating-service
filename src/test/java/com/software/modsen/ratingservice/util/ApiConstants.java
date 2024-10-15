@@ -14,4 +14,5 @@ public final class ApiConstants {
     public static final String PUT_PASSENGER_RATING_URL = "/ratings/passengers/{id}";
     public static final String DELETE_PASSENGER_RATING_URL = "/ratings/passengers/{id}";
     public static final String GET_RIDE_WIRE_MOCK_URL = "/rides/1";
+    public static final int RIDE_WIRE_MOCK_PORT = 8084;
 }
