@@ -1,13 +1,15 @@
 package com.software.modsen.ratingservice.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RideResponse {
     private Long id;
     private Long driverId;
