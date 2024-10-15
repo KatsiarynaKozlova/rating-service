@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  liquibase:
+    enabled: false
+  config:
+    activate:
+      on-profile: test
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: rating-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      properties:
+        spring.json.trusted.packages: "*"
+        kafka.consumer.trusted.packages: "*"
+      bootstrap-servers: localhost:9092
+  cloud:
+    openfeign:
+      client:
+        config:
+          rideFeignClient:
+            url: http://localhost:8084/rides
+          default:
+            connect-timeout: 5000
+            readTimeout: 5000
+            error-decoder: com.software.modsen.ratingservice.config.RideErrorDecoder
+      circuitbreaker:
+        enabled: true
