@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class RatingNotFoundException extends RuntimeException {
-    public RatingNotFoundException(String s) {
-        super(s);
+    public RatingNotFoundException(String message) {
+        super(message);
     }
 }

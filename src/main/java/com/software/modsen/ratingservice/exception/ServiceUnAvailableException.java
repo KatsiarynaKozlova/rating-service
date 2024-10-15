@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ServiceUnAvailableException extends RuntimeException {
-    public ServiceUnAvailableException(String s) {
-        super(s);
+    public ServiceUnAvailableException(String message) {
+        super(message);
     }
 }

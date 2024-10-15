@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PassengerRatingResponse {
-    private Long driverId;
+    private Long passengerId;
     private double rate;
 }
