@@ -8,13 +8,15 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import static com.software.modsen.ratingservice.util.ContainersConstants.POSTGRES_DOCKER_IMAGE;
+
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DatabaseContainerConfiguration {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQL =
-            new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
+            new PostgreSQLContainer<>(DockerImageName.parse(POSTGRES_DOCKER_IMAGE))
                     .withDatabaseName("test_db")
                     .withUsername("test")
                     .withPassword("test");

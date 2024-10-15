@@ -4,10 +4,8 @@ import com.software.modsen.ratingservice.dto.request.RatingRequest;
 import com.software.modsen.ratingservice.dto.response.PassengerRatingResponse;
 import com.software.modsen.ratingservice.dto.response.RatingResponse;
 import com.software.modsen.ratingservice.model.PassengerRating;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class PassengerRatingTestUtil {
+public final class PassengerRatingTestUtil {
     public static final Long DEFAULT_ID = 1L;
     public static final Long DEFAULT_PASSENGER_ID = 1L;
     public static final Long DEFAULT_DRIVER_ID = 1L;
@@ -17,7 +15,7 @@ public class PassengerRatingTestUtil {
     public static final Long DEFAULT_RIDE_ID = 1L;
     public static final int DEFAULT_REQUEST_RATE = 5;
 
-    public PassengerRating getDeaultPassengerRating() {
+    public static PassengerRating getDefaultPassengerRating() {
         return new PassengerRating(
                 DEFAULT_ID,
                 DEFAULT_PASSENGER_ID,
@@ -27,7 +25,7 @@ public class PassengerRatingTestUtil {
         );
     }
 
-    public PassengerRating getDefaultPreCreatedPassengerRating() {
+    public static PassengerRating getDefaultPreCreatedPassengerRating() {
         return new PassengerRating(
                 null,
                 DEFAULT_PASSENGER_ID,
@@ -37,7 +35,7 @@ public class PassengerRatingTestUtil {
         );
     }
 
-    public PassengerRating getDefaultNotValidPassengerRating() {
+    public static PassengerRating getDefaultNotValidPassengerRating() {
         return new PassengerRating(
                 null,
                 DEFAULT_PASSENGER_ID,
@@ -47,7 +45,7 @@ public class PassengerRatingTestUtil {
         );
     }
 
-    public RatingRequest getDefaultRatingRequest() {
+    public static RatingRequest getDefaultRatingRequest() {
         return new RatingRequest(
                 DEFAULT_RIDE_ID,
                 DEFAULT_REQUEST_RATE,
@@ -55,7 +53,7 @@ public class PassengerRatingTestUtil {
         );
     }
 
-    public RatingResponse getDefaultRatingResponse() {
+    public static RatingResponse getDefaultRatingResponse() {
         return new RatingResponse(
                 DEFAULT_ID,
                 DEFAULT_PASSENGER_ID,
@@ -65,7 +63,7 @@ public class PassengerRatingTestUtil {
         );
     }
 
-    public PassengerRatingResponse getDefaultPassengerRatingResponse() {
+    public static PassengerRatingResponse getDefaultPassengerRatingResponse() {
         return new PassengerRatingResponse(
                 DEFAULT_PASSENGER_ID,
                 DEFAULT_RATE

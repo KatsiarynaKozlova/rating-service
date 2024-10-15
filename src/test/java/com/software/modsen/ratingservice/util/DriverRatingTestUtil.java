@@ -2,13 +2,11 @@ package com.software.modsen.ratingservice.util;
 
 import com.software.modsen.ratingservice.dto.request.RatingRequest;
 import com.software.modsen.ratingservice.dto.response.DriverRatingResponse;
-import com.software.modsen.ratingservice.dto.response.PassengerRatingResponse;
 import com.software.modsen.ratingservice.dto.response.RatingResponse;
 import com.software.modsen.ratingservice.model.DriverRating;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class DriverRatingTestUtil {
+public final class DriverRatingTestUtil {
+    private DriverRatingTestUtil(){}
     public static final Long DEFAULT_ID = 1L;
     public static final Long DEFAULT_PASSENGER_ID = 1L;
     public static final Long DEFAULT_DRIVER_ID = 1L;
@@ -17,7 +15,7 @@ public class DriverRatingTestUtil {
     public static final double DEFAULT_NOT_VALID_RATE = 10;
     public static final int DEFAULT_REQUEST_RATE = 5;
 
-    public DriverRating getDeaultDriverRating() {
+    public static DriverRating getDefaultDriverRating() {
         return new DriverRating(
                 DEFAULT_ID,
                 DEFAULT_PASSENGER_ID,
@@ -27,7 +25,7 @@ public class DriverRatingTestUtil {
         );
     }
 
-    public DriverRating getDefaultPreCreatedDriverRating() {
+    public static DriverRating getDefaultPreCreatedDriverRating() {
         return new DriverRating(
                 null,
                 DEFAULT_PASSENGER_ID,
@@ -37,7 +35,7 @@ public class DriverRatingTestUtil {
         );
     }
 
-    public DriverRating getDefaultNotValidDriverRating() {
+    public static DriverRating getDefaultNotValidDriverRating() {
         return new DriverRating(
                 null,
                 DEFAULT_PASSENGER_ID,
@@ -47,7 +45,7 @@ public class DriverRatingTestUtil {
         );
     }
 
-    public RatingRequest getDefaultRatingRequest() {
+    public static RatingRequest getDefaultRatingRequest() {
         return new RatingRequest(
                 DEFAULT_ID,
                 DEFAULT_REQUEST_RATE,
@@ -55,7 +53,7 @@ public class DriverRatingTestUtil {
         );
     }
 
-    public RatingResponse getDefaultRatingResponse() {
+    public static RatingResponse getDefaultRatingResponse() {
         return new RatingResponse(
                 DEFAULT_ID,
                 DEFAULT_PASSENGER_ID,
@@ -65,7 +63,7 @@ public class DriverRatingTestUtil {
         );
     }
 
-    public DriverRatingResponse getDefaultDriverRatingResponse() {
+    public static DriverRatingResponse getDefaultDriverRatingResponse() {
         return new DriverRatingResponse(
                 DEFAULT_DRIVER_ID,
                 DEFAULT_RATE

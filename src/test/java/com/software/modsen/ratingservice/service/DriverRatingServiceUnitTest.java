@@ -55,7 +55,7 @@ public class DriverRatingServiceUnitTest {
 
     @Test
     void getDriverRatingById_shouldReturnRating() {
-        DriverRating expectedRating = DriverRatingTestUtil.getDeaultDriverRating();
+        DriverRating expectedRating = DriverRatingTestUtil.getDefaultDriverRating();
         when(driverRatingRepository.findById(anyLong())).thenReturn(Optional.of(expectedRating));
 
         DriverRating resultDriverRating = driverRatingService.getRatingById(DEFAULT_ID);
@@ -87,7 +87,7 @@ public class DriverRatingServiceUnitTest {
     @Test
     void createDriverRating_shouldReturnDriverRating() {
         DriverRating newDriverRating = DriverRatingTestUtil.getDefaultPreCreatedDriverRating();
-        DriverRating expectedCreatedDriverRating = DriverRatingTestUtil.getDeaultDriverRating();
+        DriverRating expectedCreatedDriverRating = DriverRatingTestUtil.getDefaultDriverRating();
         RideResponse rideInfo = RideTestUtil.getDefaultRideResponse();
 
         when(driverRatingRepository.save(any(DriverRating.class))).thenReturn(expectedCreatedDriverRating);
@@ -138,7 +138,7 @@ public class DriverRatingServiceUnitTest {
 
     @Test
     void updateDriverRating_shouldReturnDriverRating() {
-        DriverRating driverRating = DriverRatingTestUtil.getDeaultDriverRating();
+        DriverRating driverRating = DriverRatingTestUtil.getDefaultDriverRating();
 
         when(driverRatingRepository.findById(anyLong())).thenReturn(Optional.of(driverRating));
         when(driverRatingRepository.save(driverRating)).thenReturn(driverRating);
@@ -153,7 +153,7 @@ public class DriverRatingServiceUnitTest {
 
     @Test
     void updateDriverRating_shouldReturnRatingNotFoundException() {
-        DriverRating driverRating = DriverRatingTestUtil.getDeaultDriverRating();
+        DriverRating driverRating = DriverRatingTestUtil.getDefaultDriverRating();
 
         when(driverRatingRepository.findById(anyLong())).thenThrow(RatingNotFoundException.class);
 
@@ -167,7 +167,7 @@ public class DriverRatingServiceUnitTest {
 
     @Test
     void updateDriverRating_shouldReturnRateNotValidException() {
-        DriverRating driverRating = DriverRatingTestUtil.getDeaultDriverRating();
+        DriverRating driverRating = DriverRatingTestUtil.getDefaultDriverRating();
         DriverRating notValidDriverRating = DriverRatingTestUtil.getDefaultNotValidDriverRating();
 
         when(driverRatingRepository.findById(anyLong())).thenReturn(Optional.of(driverRating));

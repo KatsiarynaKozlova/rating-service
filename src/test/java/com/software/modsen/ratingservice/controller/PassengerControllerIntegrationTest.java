@@ -25,6 +25,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.software.modsen.ratingservice.util.ApiConstants.DELETE_PASSENGER_RATING_URL;
+import static com.software.modsen.ratingservice.util.ApiConstants.GET_PASSENGER_RATING_BY_PASSENGER_ID_URL;
+import static com.software.modsen.ratingservice.util.ApiConstants.GET_PASSENGER_RATING_BY_RATING_ID_URL;
+import static com.software.modsen.ratingservice.util.ApiConstants.GET_RIDE_WIRE_MOCK_URL;
+import static com.software.modsen.ratingservice.util.ApiConstants.POST_PASSENGER_RATING_URL;
+import static com.software.modsen.ratingservice.util.ApiConstants.PUT_PASSENGER_RATING_URL;
 import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.DEFAULT_ID;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,7 +55,7 @@ public class PassengerControllerIntegrationTest {
     @Test
     @Order(1)
     public void testGetByIdRating_ShouldReturnNotFoundException() throws Exception {
-        mockMvc.perform(get("/ratings/{id}/passengers", 1))
+        mockMvc.perform(get(GET_PASSENGER_RATING_BY_RATING_ID_URL, 1))
                 .andExpect(status().isNotFound());
     }
 
@@ -59,7 +65,7 @@ public class PassengerControllerIntegrationTest {
         RatingRequest newRatingRequest = PassengerRatingTestUtil.getDefaultRatingRequest();
         PassengerRating expectedResponse = PassengerRatingTestUtil.getDeaultPassengerRating();
 
-        stubFor(WireMock.get(urlEqualTo("/rides/1"))
+        stubFor(WireMock.get(urlEqualTo(GET_RIDE_WIRE_MOCK_URL))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
@@ -76,7 +82,7 @@ public class PassengerControllerIntegrationTest {
                                                          }
                                 """)));
 
-        mockMvc.perform(post("/ratings/passengers")
+        mockMvc.perform(post(POST_PASSENGER_RATING_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newRatingRequest)))
                 .andExpect(status().isCreated())
@@ -91,7 +97,7 @@ public class PassengerControllerIntegrationTest {
     @Order(3)
     public void testGetByIdRating_ShouldReturnRating() throws Exception {
         RatingResponse expectedResponse = PassengerRatingTestUtil.getDefaultRatingResponse();
-        mockMvc.perform(get("/ratings/{id}/passengers", DEFAULT_ID))
+        mockMvc.perform(get(GET_PASSENGER_RATING_BY_RATING_ID_URL, DEFAULT_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.driverId").value(expectedResponse.getDriverId()))
                 .andExpect(jsonPath("$.passengerId").value(expectedResponse.getPassengerId()))
@@ -103,7 +109,7 @@ public class PassengerControllerIntegrationTest {
     @Order(4)
     public void testGetAveragePassengerRating_ShouldReturnPassengerRating() throws Exception {
         PassengerRatingResponse expectedRating = PassengerRatingTestUtil.getDefaultPassengerRatingResponse();
-        mockMvc.perform(get("/ratings/passengers/{id}", DEFAULT_ID))
+        mockMvc.perform(get(GET_PASSENGER_RATING_BY_PASSENGER_ID_URL, DEFAULT_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.passengerId").value(expectedRating.getPassengerId()))
                 .andExpect(jsonPath("$.rate").value(expectedRating.getRate()));
@@ -114,7 +120,7 @@ public class PassengerControllerIntegrationTest {
     public void testUpdatePassengerRating_ShouldReturnPassengerRating() throws Exception {
         RatingRequest updatedRating = PassengerRatingTestUtil.getDefaultRatingRequest();
         RatingResponse expectedResponse = PassengerRatingTestUtil.getDefaultRatingResponse();
-        mockMvc.perform(put("/ratings/passengers/{id}", DEFAULT_ID)
+        mockMvc.perform(put(PUT_PASSENGER_RATING_URL, DEFAULT_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedRating)))
                 .andExpect(status().isOk())
@@ -127,7 +133,7 @@ public class PassengerControllerIntegrationTest {
 
     @Test
     public void testDeletePassengerRating_ShouldReturnNoContent() throws Exception {
-        mockMvc.perform(delete("/ratings/passengers/{id}", DEFAULT_ID))
+        mockMvc.perform(delete(DELETE_PASSENGER_RATING_URL, DEFAULT_ID))
                 .andExpect(status().isNoContent());
     }
 }

@@ -55,7 +55,7 @@ public class PassengerRatingServiceUnitTest {
 
     @Test
     void getPassengerRatingById_shouldReturnRating() {
-        PassengerRating expectedRating = PassengerRatingTestUtil.getDeaultPassengerRating();
+        PassengerRating expectedRating = PassengerRatingTestUtil.getDefaultPassengerRating();
         when(passengerRatingRepository.findById(anyLong())).thenReturn(Optional.of(expectedRating));
 
         PassengerRating resultPassengerRating = passengerRatingService.getRatingById(DEFAULT_ID);
@@ -87,7 +87,7 @@ public class PassengerRatingServiceUnitTest {
     @Test
     void createPassengerRating_shouldReturnPassengerRating() {
         PassengerRating newPassengerRating = PassengerRatingTestUtil.getDefaultPreCreatedPassengerRating();
-        PassengerRating expectedCreatedPassengerRating = PassengerRatingTestUtil.getDeaultPassengerRating();
+        PassengerRating expectedCreatedPassengerRating = PassengerRatingTestUtil.getDefaultPassengerRating();
         RideResponse rideInfo = RideTestUtil.getDefaultRideResponse();
 
         when(passengerRatingRepository.save(any(PassengerRating.class))).thenReturn(expectedCreatedPassengerRating);
@@ -138,7 +138,7 @@ public class PassengerRatingServiceUnitTest {
 
     @Test
     void updatePassengerRating_shouldReturnPassengerRating() {
-        PassengerRating passengerRating = PassengerRatingTestUtil.getDeaultPassengerRating();
+        PassengerRating passengerRating = PassengerRatingTestUtil.getDefaultPassengerRating();
 
         when(passengerRatingRepository.findById(anyLong())).thenReturn(Optional.of(passengerRating));
         when(passengerRatingRepository.save(passengerRating)).thenReturn(passengerRating);
@@ -153,7 +153,7 @@ public class PassengerRatingServiceUnitTest {
 
     @Test
     void updatePassengerRating_shouldReturnRatingNotFoundException() {
-        PassengerRating passengerRating = PassengerRatingTestUtil.getDeaultPassengerRating();
+        PassengerRating passengerRating = PassengerRatingTestUtil.getDefaultPassengerRating();
 
         when(passengerRatingRepository.findById(anyLong())).thenThrow(RatingNotFoundException.class);
 
@@ -167,7 +167,7 @@ public class PassengerRatingServiceUnitTest {
 
     @Test
     void updatePassengerRating_shouldReturnRateNotValidException() {
-        PassengerRating passengerRating = PassengerRatingTestUtil.getDeaultPassengerRating();
+        PassengerRating passengerRating = PassengerRatingTestUtil.getDefaultPassengerRating();
         PassengerRating notValidPassengerRating = PassengerRatingTestUtil.getDefaultNotValidPassengerRating();
 
         when(passengerRatingRepository.findById(anyLong())).thenReturn(Optional.of(passengerRating));
