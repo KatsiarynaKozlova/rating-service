@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class RatingListResponse {
-    private List<RatingResponse> items;
+    private List<RatingResponse> ratings;
 }

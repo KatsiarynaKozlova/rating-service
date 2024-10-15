@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class RateNotValidException extends RuntimeException {
-    public RateNotValidException(String s) {
-        super(s);
+    public RateNotValidException(String message) {
+        super(message);
     }
 }
