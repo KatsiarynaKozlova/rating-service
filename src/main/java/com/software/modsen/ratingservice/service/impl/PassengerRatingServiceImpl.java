@@ -1,6 +1,7 @@
 package com.software.modsen.ratingservice.service.impl;
 
 import com.software.modsen.ratingservice.dto.response.RideResponse;
+import com.software.modsen.ratingservice.exception.RateNotValidException;
 import com.software.modsen.ratingservice.exception.RatingNotFoundException;
 import com.software.modsen.ratingservice.model.PassengerRating;
 import com.software.modsen.ratingservice.repository.PassengerRatingRepository;
@@ -67,12 +68,12 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         validateRate(passengerRating.getRate());
         rating.setRate(passengerRating.getRate());
         rating.setComment(passengerRating.getComment());
-        return ratingRepository.save(passengerRating);
+        return ratingRepository.save(rating);
     }
 
     private void validateRate(double rate) {
         if (rate > 5 || rate < 0) {
-            throw new RatingNotFoundException(ExceptionMessages.RATE_NOT_VALID_EXCEPTION);
+            throw new RateNotValidException(ExceptionMessages.RATE_NOT_VALID_EXCEPTION);
         }
     }
 }

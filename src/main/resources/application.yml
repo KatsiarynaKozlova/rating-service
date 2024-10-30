@@ -20,7 +20,7 @@ spring:
       client:
         config:
           rideFeignClient:
-            url: http://localhost:8084/rides
+            url: http://ride-service:8084/rides
           default:
             connect-timeout: 5000
             readTimeout: 5000
@@ -41,6 +41,8 @@ spring:
       bootstrap-servers: kafka:9092
 
 eureka:
+  instance:
+    hostname: rating-service
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
