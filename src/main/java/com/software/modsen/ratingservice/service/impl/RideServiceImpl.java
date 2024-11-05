@@ -7,11 +7,14 @@ import com.software.modsen.ratingservice.exception.RideNotFoundException;
 import com.software.modsen.ratingservice.exception.ServiceUnAvailableException;
 import com.software.modsen.ratingservice.service.RideService;
 import com.software.modsen.ratingservice.util.ExceptionMessages;
+import com.software.modsen.ratingservice.util.LogInfoMessages;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RideServiceImpl implements RideService {
@@ -21,14 +24,17 @@ public class RideServiceImpl implements RideService {
     @Retry(name = "rideFeignClient")
     @CircuitBreaker(name = "rideFeignClient", fallbackMethod = "getRideByIdFallback")
     public RideResponse getRideById(Long id) {
-        return rideFeignClient.getRideById(id);
+        log.info(String.format(LogInfoMessages.REQUEST_RIDE_INFO, id));
+        RideResponse rideResponse = rideFeignClient.getRideById(id);
+        log.info(String.format(LogInfoMessages.GET_RIDE, rideResponse.getId()));
+        return rideResponse;
     }
 
-    private RideResponse getRideByIdFallback(Long id, Exception exception){
+    private RideResponse getRideByIdFallback(Long id, Exception exception) {
         throw new ServiceUnAvailableException(ExceptionMessages.RIDE_SERVICE_IS_NOT_AVAILABLE);
     }
 
     private RideResponse getRideByIdFallback(Long id, NotFoundException exception) {
-        throw new RideNotFoundException(String.format(ExceptionMessages.RIDE_NOT_FOUND_EXCEPTION,id));
+        throw new RideNotFoundException(String.format(ExceptionMessages.RIDE_NOT_FOUND_EXCEPTION, id));
     }
 }

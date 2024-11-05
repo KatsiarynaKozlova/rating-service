@@ -7,10 +7,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "rideFeignClient")
+@FeignClient(name = "ride-service")
 public interface RideFeignClient {
     @Retry(name = "rideFeignClient")
     @CircuitBreaker(name = "rideFeignClient")
-    @GetMapping("/{id}")
+    @GetMapping("/rides/{id}")
     RideResponse getRideById(@PathVariable Long id);
 }

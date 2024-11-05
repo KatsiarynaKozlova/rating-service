@@ -9,11 +9,14 @@ import com.software.modsen.ratingservice.service.PassengerRatingService;
 import com.software.modsen.ratingservice.service.RideService;
 import com.software.modsen.ratingservice.util.DefaultValues;
 import com.software.modsen.ratingservice.util.ExceptionMessages;
+import com.software.modsen.ratingservice.util.LogInfoMessages;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PassengerRatingServiceImpl implements PassengerRatingService {
@@ -27,22 +30,29 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
 
     @Override
     public PassengerRating getRatingById(Long id) {
-        return getByIdOrElseThrow(id);
+        PassengerRating passengerRating = getByIdOrElseThrow(id);
+        log.info(String.format(LogInfoMessages.GET_PASSENGER_RATING, passengerRating.getPassengerId()));
+        return passengerRating;
     }
 
     @Override
     public List<PassengerRating> getAllRatings() {
-        return ratingRepository.findAll();
+        List<PassengerRating> passengerRatings = ratingRepository.findAll();
+        log.info(LogInfoMessages.GET_ALL_RATINGS_PASSENGERS);
+        return passengerRatings;
     }
 
     @Override
     public Double getAverageRatingById(Long id) {
-        return ratingRepository.findAveragePassengerRatingByPassengerId(id);
+        Double rate = ratingRepository.findAveragePassengerRatingByPassengerId(id);
+        log.info(String.format(LogInfoMessages.GET_AVERAGE_PASSENGER_RATING, id));
+        return rate;
     }
 
     @Override
     public void deleteRatingById(Long id) {
         ratingRepository.deleteById(id);
+        log.info(String.format(LogInfoMessages.DELETE_PASSENGER_RATING, id));
     }
 
     @Override
@@ -50,7 +60,9 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         PassengerRating rating = new PassengerRating();
         rating.setPassengerId(id);
         rating.setRate(DefaultValues.DEFAULT_RATE);
-        return ratingRepository.save(rating);
+        PassengerRating passengerRating = ratingRepository.save(rating);
+        log.info(String.format(LogInfoMessages.INIT_PASSENGER_RATING, id));
+        return passengerRating;
     }
 
     @Override
@@ -59,7 +71,9 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         validateRate(passengerRating.getRate());
         passengerRating.setPassengerId(rideResponse.getPassengerId());
         passengerRating.setDriverId(rideResponse.getDriverId());
-        return ratingRepository.save(passengerRating);
+        PassengerRating newPassengerRating = ratingRepository.save(passengerRating);
+        log.info(String.format(LogInfoMessages.CREATE_PASSENGER_RATING, newPassengerRating.getId()));
+        return newPassengerRating;
     }
 
     @Override
@@ -68,7 +82,9 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
         validateRate(passengerRating.getRate());
         rating.setRate(passengerRating.getRate());
         rating.setComment(passengerRating.getComment());
-        return ratingRepository.save(rating);
+        PassengerRating updatedPassengerRating = ratingRepository.save(rating);
+        log.info(String.format(LogInfoMessages.UPDATE_PASSENGER_RATING, updatedPassengerRating.getId()));
+        return updatedPassengerRating;
     }
 
     private void validateRate(double rate) {

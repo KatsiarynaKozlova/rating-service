@@ -19,8 +19,6 @@ spring:
     openfeign:
       client:
         config:
-          rideFeignClient:
-            url: http://ride-service:8084/rides
           default:
             connect-timeout: 5000
             readTimeout: 5000
@@ -50,3 +48,13 @@ eureka:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: prometheus
+  tracing:
+    sampling:
+      probability: 1.0
