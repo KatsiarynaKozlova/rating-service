@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class DriverRatingResponse {
-    private Long driverId;
+    private String driverId;
     private double rate;
 }

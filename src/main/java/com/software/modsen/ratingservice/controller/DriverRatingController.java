@@ -45,7 +45,7 @@ public class DriverRatingController {
     }
 
     @GetMapping("/drivers/{id}")
-    public ResponseEntity<DriverRatingResponse> getDriverRatingById(@PathVariable Long id) {
+    public ResponseEntity<DriverRatingResponse> getDriverRatingById(@PathVariable String id) {
         double rate = driverRatingService.getAverageRatingById(id);
         DriverRatingResponse driverRatingResponse = new DriverRatingResponse(id, rate);
         return ResponseEntity.ok().body(driverRatingResponse);
@@ -63,7 +63,7 @@ public class DriverRatingController {
     }
 
     @PostMapping("/drivers/{id}/init")
-    public ResponseEntity<RatingResponse> initDriverRating(@PathVariable Long id) {
+    public ResponseEntity<RatingResponse> initDriverRating(@PathVariable String id) {
         DriverRating newDriverRating = driverRatingService.initRating(id);
         RatingResponse driverRatingResponse = ratingMapper.toRatingResponse(newDriverRating);
         return ResponseEntity

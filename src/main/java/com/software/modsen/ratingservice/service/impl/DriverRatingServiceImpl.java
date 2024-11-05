@@ -43,7 +43,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
-    public Double getAverageRatingById(Long id) {
+    public Double getAverageRatingById(String id) {
         Double rate = ratingRepository.findAverageDriverRatingByDriverId(id);
         log.info(String.format(LogInfoMessages.GET_AVERAGE_DRIVER_RATING, id));
         return rate;
@@ -56,7 +56,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
-    public DriverRating initRating(Long id) {
+    public DriverRating initRating(String id) {
         DriverRating rating = new DriverRating();
         rating.setDriverId(id);
         rating.setRate(DefaultValues.DEFAULT_RATE);

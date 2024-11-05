@@ -11,11 +11,11 @@ public interface PassengerRatingService {
 
     List<PassengerRating> getAllRatings();
 
-    Double getAverageRatingById(Long id);
+    Double getAverageRatingById(String id);
 
     void deleteRatingById(Long id);
 
-    PassengerRating initRating(Long id);
+    PassengerRating initRating(String id);
 
     PassengerRating createRating(PassengerRating passengerRating, Long rideId);
 

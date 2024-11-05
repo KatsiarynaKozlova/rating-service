@@ -45,7 +45,7 @@ public class PassengerRatingController {
     }
 
     @GetMapping("/passengers/{id}")
-    public ResponseEntity<PassengerRatingResponse> getPassengerRatingById(@PathVariable Long id) {
+    public ResponseEntity<PassengerRatingResponse> getPassengerRatingById(@PathVariable String id) {
         double rate = passengerRatingService.getAverageRatingById(id);
         PassengerRatingResponse passengerRatingResponse = new PassengerRatingResponse(id, rate);
         return ResponseEntity.ok(passengerRatingResponse);
@@ -63,7 +63,7 @@ public class PassengerRatingController {
     }
 
     @PostMapping("/passengers/{id}/init")
-    public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable Long id) {
+    public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable String id) {
         PassengerRating newPassengerRating = passengerRatingService.initRating(id);
         RatingResponse passengerRatingResponse = ratingMapper.toRatingResponse(newPassengerRating);
         return ResponseEntity

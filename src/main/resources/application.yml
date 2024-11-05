@@ -37,7 +37,12 @@ spring:
         spring.json.trusted.packages: "*"
         kafka.consumer.trusted.packages: "*"
       bootstrap-servers: kafka:9092
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8100/realms/cab-aggregator-realm
+          jwk-set-uri: http://localhost:8100/realms/cab-aggregator-realm/protocol/openid-connect/certs
 eureka:
   instance:
     hostname: rating-service

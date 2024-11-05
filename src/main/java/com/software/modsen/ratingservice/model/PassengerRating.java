@@ -21,9 +21,9 @@ public class PassengerRating {
     @Column(name = "rating_id")
     private Long id;
     @Column(name = "passenger_id")
-    private Long passengerId;
+    private String passengerId;
     @Column(name = "driver_id")
-    private Long driverId;
+    private String driverId;
     @Column(name = "rate")
     private double rate;
     @Column(name = "comment")

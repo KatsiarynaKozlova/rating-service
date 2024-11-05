@@ -43,7 +43,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
-    public Double getAverageRatingById(Long id) {
+    public Double getAverageRatingById(String id) {
         Double rate = ratingRepository.findAveragePassengerRatingByPassengerId(id);
         log.info(String.format(LogInfoMessages.GET_AVERAGE_PASSENGER_RATING, id));
         return rate;
@@ -56,7 +56,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
-    public PassengerRating initRating(Long id) {
+    public PassengerRating initRating(String id) {
         PassengerRating rating = new PassengerRating();
         rating.setPassengerId(id);
         rating.setRate(DefaultValues.DEFAULT_RATE);

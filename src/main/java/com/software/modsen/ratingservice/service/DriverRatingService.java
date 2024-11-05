@@ -11,11 +11,11 @@ public interface DriverRatingService {
 
     List<DriverRating> getAllRatings();
 
-    Double getAverageRatingById(Long id);
+    Double getAverageRatingById(String id);
 
     void deleteRatingById(Long id);
 
-    DriverRating initRating(Long id);
+    DriverRating initRating(String id);
 
     DriverRating createRating(DriverRating driverRating, Long rideId);
 

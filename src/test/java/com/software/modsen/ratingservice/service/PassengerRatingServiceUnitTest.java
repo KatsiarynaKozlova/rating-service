@@ -20,8 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.DEFAULT_ID;
-import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.DEFAULT_RATE;
+import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -75,13 +74,13 @@ public class PassengerRatingServiceUnitTest {
     @Test
     void getAveragePassengerRatingById_shouldReturnDouble() {
         double expectedRate = DEFAULT_RATE;
-        when(passengerRatingRepository.findAveragePassengerRatingByPassengerId(anyLong())).thenReturn(expectedRate);
+        when(passengerRatingRepository.findAveragePassengerRatingByPassengerId(any())).thenReturn(expectedRate);
 
-        Double resultRate = passengerRatingService.getAverageRatingById(DEFAULT_ID);
+        Double resultRate = passengerRatingService.getAverageRatingById(DEFAULT_PASSENGER_ID);
 
         assertNotNull(resultRate);
         assertEquals(expectedRate, resultRate);
-        verify(passengerRatingRepository, times(1)).findAveragePassengerRatingByPassengerId(DEFAULT_ID);
+        verify(passengerRatingRepository, times(1)).findAveragePassengerRatingByPassengerId(DEFAULT_PASSENGER_ID);
     }
 
     @Test
