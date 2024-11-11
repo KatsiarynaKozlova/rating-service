@@ -7,7 +7,9 @@ import feign.FeignException;
 import feign.Response;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RideErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
