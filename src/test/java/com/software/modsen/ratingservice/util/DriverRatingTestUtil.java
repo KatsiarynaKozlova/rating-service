@@ -8,8 +8,8 @@ import com.software.modsen.ratingservice.model.DriverRating;
 public final class DriverRatingTestUtil {
     private DriverRatingTestUtil(){}
     public static final Long DEFAULT_ID = 1L;
-    public static final String DEFAULT_PASSENGER_ID = "1L";
-    public static final String DEFAULT_DRIVER_ID = "1L";
+    public static final Long DEFAULT_PASSENGER_ID = 1L;
+    public static final Long DEFAULT_DRIVER_ID = 1L;
     public static final double DEFAULT_RATE = 5;
     public static final String DEFAULT_COMMENT = "super!";
     public static final double DEFAULT_NOT_VALID_RATE = 10;
