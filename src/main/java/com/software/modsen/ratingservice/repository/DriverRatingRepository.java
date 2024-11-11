@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DriverRatingRepository extends JpaRepository<DriverRating, Long> {
     @Query("SELECT AVG(d.rate) FROM DriverRating d WHERE d.driverId = :id")
-    double findAverageDriverRatingByDriverId(String id);
+    double findAverageDriverRatingByDriverId(Long id);
 }

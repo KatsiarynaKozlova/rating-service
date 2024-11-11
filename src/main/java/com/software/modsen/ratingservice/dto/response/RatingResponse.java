@@ -9,8 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RatingResponse {
     private Long id;
-    private String driverId;
-    private String passengerId;
+    private Long driverId;
+    private Long passengerId;
     private double rate;
     private String comment;
 }
