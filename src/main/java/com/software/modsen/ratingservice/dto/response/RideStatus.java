@@ -1,7 +1,7 @@
 package com.software.modsen.ratingservice.dto.response;
 
 public enum RideStatus {
-    REATED,
+    CREATED,
     ACCEPTED,
     ACTIVE,
     FINISHED,

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.software.modsen.ratingservice.util.DriverRatingTestUtil.DEFAULT_DRIVER_ID;
 import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.DEFAULT_ID;
 import static com.software.modsen.ratingservice.util.PassengerRatingTestUtil.DEFAULT_RATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,13 +76,13 @@ public class DriverRatingServiceUnitTest {
     @Test
     void getAverageDriverRatingById_shouldReturnDouble() {
         double expectedRate = DEFAULT_RATE;
-        when(driverRatingRepository.findAverageDriverRatingByDriverId(anyLong())).thenReturn(expectedRate);
+        when(driverRatingRepository.findAverageDriverRatingByDriverId(any())).thenReturn(expectedRate);
 
-        Double resultRate = driverRatingService.getAverageRatingById(DEFAULT_ID);
+        Double resultRate = driverRatingService.getAverageRatingById(DEFAULT_DRIVER_ID);
 
         assertNotNull(resultRate);
         assertEquals(expectedRate, resultRate);
-        verify(driverRatingRepository, times(1)).findAverageDriverRatingByDriverId(DEFAULT_ID);
+        verify(driverRatingRepository, times(1)).findAverageDriverRatingByDriverId(DEFAULT_DRIVER_ID);
     }
 
     @Test

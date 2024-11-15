@@ -9,11 +9,14 @@ import com.software.modsen.ratingservice.service.DriverRatingService;
 import com.software.modsen.ratingservice.service.RideService;
 import com.software.modsen.ratingservice.util.DefaultValues;
 import com.software.modsen.ratingservice.util.ExceptionMessages;
+import com.software.modsen.ratingservice.util.LogInfoMessages;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DriverRatingServiceImpl implements DriverRatingService {
@@ -27,22 +30,29 @@ public class DriverRatingServiceImpl implements DriverRatingService {
 
     @Override
     public DriverRating getRatingById(Long id) {
-        return getByIdOrElseThrow(id);
+        DriverRating driverRating = getByIdOrElseThrow(id);
+        log.info(String.format(LogInfoMessages.GET_DRIVER_RATING, driverRating.getId()));
+        return driverRating;
     }
 
     @Override
     public List<DriverRating> getAllRatings() {
-        return ratingRepository.findAll();
+        List<DriverRating> driverRatingList = ratingRepository.findAll();
+        log.info(LogInfoMessages.GET_ALL_RATINGS_DRIVERS);
+        return driverRatingList;
     }
 
     @Override
     public Double getAverageRatingById(Long id) {
-        return ratingRepository.findAverageDriverRatingByDriverId(id);
+        Double rate = ratingRepository.findAverageDriverRatingByDriverId(id);
+        log.info(String.format(LogInfoMessages.GET_AVERAGE_DRIVER_RATING, id));
+        return rate;
     }
 
     @Override
     public void deleteRatingById(Long id) {
         ratingRepository.deleteById(id);
+        log.info(String.format(LogInfoMessages.DELETE_DRIVER_RATING, id));
     }
 
     @Override
@@ -50,7 +60,9 @@ public class DriverRatingServiceImpl implements DriverRatingService {
         DriverRating rating = new DriverRating();
         rating.setDriverId(id);
         rating.setRate(DefaultValues.DEFAULT_RATE);
-        return ratingRepository.save(rating);
+        DriverRating driverRating = ratingRepository.save(rating);
+        log.info(String.format(LogInfoMessages.INIT_DRIVER_RATING, driverRating.getDriverId()));
+        return driverRating;
     }
 
     @Override
@@ -59,7 +71,9 @@ public class DriverRatingServiceImpl implements DriverRatingService {
         validateRate(driverRating.getRate());
         driverRating.setDriverId(rideResponse.getDriverId());
         driverRating.setPassengerId(rideResponse.getPassengerId());
-        return ratingRepository.save(driverRating);
+        DriverRating newDriverRating = ratingRepository.save(driverRating);
+        log.info(String.format(LogInfoMessages.CREATE_DRIVER_RATING, newDriverRating.getId()));
+        return newDriverRating;
     }
 
     @Override
@@ -68,7 +82,9 @@ public class DriverRatingServiceImpl implements DriverRatingService {
         validateRate(driverRating.getRate());
         rating.setRate(driverRating.getRate());
         rating.setComment(driverRating.getComment());
-        return ratingRepository.save(rating);
+        DriverRating updatedRating = ratingRepository.save(rating);
+        log.info(String.format(LogInfoMessages.UPDATE_DRIVER_RATING, id));
+        return updatedRating;
     }
 
     private void validateRate(double rate) {

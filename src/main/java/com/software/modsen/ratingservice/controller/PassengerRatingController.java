@@ -10,6 +10,7 @@ import com.software.modsen.ratingservice.service.PassengerRatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class PassengerRatingController {
         return ResponseEntity.ok(passengerRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/passengers")
     public ResponseEntity<RatingListResponse> getAllPassengerRating() {
         List<PassengerRating> passengerRatingList = passengerRatingService.getAllRatings();
@@ -51,6 +53,7 @@ public class PassengerRatingController {
         return ResponseEntity.ok(passengerRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DRIVER','ROLE_ADMIN')")
     @PutMapping("/passengers/{id}")
     public ResponseEntity<RatingResponse> updatePassengerRating(
             @PathVariable Long id,
@@ -62,6 +65,7 @@ public class PassengerRatingController {
         return ResponseEntity.ok(passengerRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/passengers/{id}/init")
     public ResponseEntity<RatingResponse> initPassengerRating(@PathVariable Long id) {
         PassengerRating newPassengerRating = passengerRatingService.initRating(id);
@@ -71,6 +75,7 @@ public class PassengerRatingController {
                 .body(passengerRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DRIVER','ROLE_ADMIN')")
     @PostMapping("/passengers")
     public ResponseEntity<RatingResponse> createPassengerRating(
             @RequestBody RatingRequest ratingRequest
@@ -83,6 +88,7 @@ public class PassengerRatingController {
                 .body(passengerRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_DRIVER','ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/passengers/{id}")
     public void deletePassengerRating(@PathVariable Long id) {

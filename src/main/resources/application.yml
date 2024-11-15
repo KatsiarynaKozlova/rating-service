@@ -19,8 +19,6 @@ spring:
     openfeign:
       client:
         config:
-          rideFeignClient:
-            url: http://ride-service:8084/rides
           default:
             connect-timeout: 5000
             readTimeout: 5000
@@ -39,7 +37,12 @@ spring:
         spring.json.trusted.packages: "*"
         kafka.consumer.trusted.packages: "*"
       bootstrap-servers: kafka:9092
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8100/realms/cab-aggregator-realm
+          jwk-set-uri: http://localhost:8100/realms/cab-aggregator-realm/protocol/openid-connect/certs
 eureka:
   instance:
     hostname: rating-service
@@ -50,3 +53,13 @@ eureka:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: prometheus
+  tracing:
+    sampling:
+      probability: 1.0

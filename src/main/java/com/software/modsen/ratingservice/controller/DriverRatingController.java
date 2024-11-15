@@ -10,6 +10,7 @@ import com.software.modsen.ratingservice.service.DriverRatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class DriverRatingController {
         return ResponseEntity.ok(ratingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/drivers")
     public ResponseEntity<RatingListResponse> getAllDriverRating() {
         List<DriverRating> driverRatingList = driverRatingService.getAllRatings();
@@ -51,6 +53,7 @@ public class DriverRatingController {
         return ResponseEntity.ok().body(driverRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
     @PutMapping("/drivers/{id}")
     public ResponseEntity<RatingResponse> updateDriverRating(
             @PathVariable Long id,
@@ -62,6 +65,7 @@ public class DriverRatingController {
         return ResponseEntity.ok(driverRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/drivers/{id}/init")
     public ResponseEntity<RatingResponse> initDriverRating(@PathVariable Long id) {
         DriverRating newDriverRating = driverRatingService.initRating(id);
@@ -71,6 +75,7 @@ public class DriverRatingController {
                 .body(driverRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
     @PostMapping("/drivers")
     public ResponseEntity<RatingResponse> createDriverRating(
             @RequestBody RatingRequest ratingRequest
@@ -83,6 +88,7 @@ public class DriverRatingController {
                 .body(driverRatingResponse);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PASSENGER','ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/drivers/{id}")
     public void deleteDriverRating(@PathVariable Long id) {
