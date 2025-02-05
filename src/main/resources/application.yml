@@ -51,6 +51,7 @@ spring:
           - redis-cluster-2:6382
           - redis-cluster-3:6383
         max-redirects: 3
+      port: 6389
 eureka:
   instance:
     hostname: rating-service
