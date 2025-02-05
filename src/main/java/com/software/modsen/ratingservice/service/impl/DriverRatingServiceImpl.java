@@ -12,6 +12,9 @@ import com.software.modsen.ratingservice.util.ExceptionMessages;
 import com.software.modsen.ratingservice.util.LogInfoMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +32,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @Cacheable(value = "driverRating", key = "#id")
     public DriverRating getRatingById(Long id) {
         DriverRating driverRating = getByIdOrElseThrow(id);
         log.info(String.format(LogInfoMessages.GET_DRIVER_RATING, driverRating.getId()));
@@ -50,12 +54,14 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @CacheEvict(value = "driverRating", key = "#id")
     public void deleteRatingById(Long id) {
         ratingRepository.deleteById(id);
         log.info(String.format(LogInfoMessages.DELETE_DRIVER_RATING, id));
     }
 
     @Override
+    @CachePut(value = "driverRating", key = "#result.id")
     public DriverRating initRating(Long id) {
         DriverRating rating = new DriverRating();
         rating.setDriverId(id);
@@ -66,6 +72,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @CachePut(value = "driverRating", key = "#result.id")
     public DriverRating createRating(DriverRating driverRating, Long rideId) {
         RideResponse rideResponse = rideService.getRideById(rideId);
         validateRate(driverRating.getRate());
@@ -77,6 +84,7 @@ public class DriverRatingServiceImpl implements DriverRatingService {
     }
 
     @Override
+    @CachePut(value = "driverRating", key = "#id")
     public DriverRating updateRating(DriverRating driverRating, Long id) {
         DriverRating rating = getByIdOrElseThrow(id);
         validateRate(driverRating.getRate());
