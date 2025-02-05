@@ -4,6 +4,7 @@ import com.software.modsen.ratingservice.model.DriverRating;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,7 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.time.Duration;
 
 @Configuration
-public class RedisCacheConfiguration {
+public class RedisConfiguration {
 
     @Bean
     public RedisTemplate<Long, DriverRating> redisTemplate(RedisConnectionFactory connectionFactory) {
@@ -22,7 +23,7 @@ public class RedisCacheConfiguration {
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        org.springframework.data.redis.cache.RedisCacheConfiguration cacheConfig = org.springframework.data.redis.cache.RedisCacheConfiguration.defaultCacheConfig()
+        RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(300));
 
         return RedisCacheManager.builder(redisConnectionFactory)
