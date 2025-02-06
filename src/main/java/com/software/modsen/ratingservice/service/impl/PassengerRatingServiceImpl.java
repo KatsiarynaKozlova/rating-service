@@ -1,5 +1,8 @@
 package com.software.modsen.ratingservice.service.impl;
 
+import com.software.modsen.ratingservice.annotation.RedisCacheEvict;
+import com.software.modsen.ratingservice.annotation.RedisCacheGet;
+import com.software.modsen.ratingservice.annotation.RedisCachePut;
 import com.software.modsen.ratingservice.dto.response.RideResponse;
 import com.software.modsen.ratingservice.exception.RateNotValidException;
 import com.software.modsen.ratingservice.exception.RatingNotFoundException;
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.software.modsen.ratingservice.util.RedisConstants.PASSENGER_RATING_VALUE;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -29,6 +34,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @RedisCacheGet(value = PASSENGER_RATING_VALUE, key = "id")
     public PassengerRating getRatingById(Long id) {
         PassengerRating passengerRating = getByIdOrElseThrow(id);
         log.info(String.format(LogInfoMessages.GET_PASSENGER_RATING, passengerRating.getPassengerId()));
@@ -50,12 +56,14 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @RedisCacheEvict(value = PASSENGER_RATING_VALUE, key = "id")
     public void deleteRatingById(Long id) {
         ratingRepository.deleteById(id);
         log.info(String.format(LogInfoMessages.DELETE_PASSENGER_RATING, id));
     }
 
     @Override
+    @RedisCachePut(value = PASSENGER_RATING_VALUE, key = "result.id")
     public PassengerRating initRating(Long id) {
         PassengerRating rating = new PassengerRating();
         rating.setPassengerId(id);
@@ -66,6 +74,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @RedisCachePut(value = PASSENGER_RATING_VALUE, key = "result.id")
     public PassengerRating createRating(PassengerRating passengerRating, Long rideId) {
         RideResponse rideResponse = rideService.getRideById(rideId);
         validateRate(passengerRating.getRate());
@@ -77,6 +86,7 @@ public class PassengerRatingServiceImpl implements PassengerRatingService {
     }
 
     @Override
+    @RedisCachePut(value = PASSENGER_RATING_VALUE, key = "result.id")
     public PassengerRating updateRating(PassengerRating passengerRating, Long id) {
         PassengerRating rating = getByIdOrElseThrow(id);
         validateRate(passengerRating.getRate());
