@@ -42,7 +42,16 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8100/realms/cab-aggregator-realm
-          jwk-set-uri: http://localhost:8100/realms/cab-aggregator-realm/protocol/openid-connect/certs
+          jwk-set-uri: http://keycloak:8100/realms/cab-aggregator-realm/protocol/openid-connect/certs
+  data:
+    redis:
+      cluster:
+        nodes:
+          - redis-cluster-1:6381
+          - redis-cluster-2:6382
+          - redis-cluster-3:6383
+        max-redirects: 3
+      port: 6389
 eureka:
   instance:
     hostname: rating-service
